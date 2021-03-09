@@ -41,9 +41,4 @@ services:
     volumes:
       - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
     working_dir: ${APP_PATH_CONTAINER}
-    #command: composer install
-    #command: composer create-project --prefer-dist laravel/laravel test-parsing "5.5.*"
-    #command: composer require electrolinux/phpquery
-    #command: composer require symfony/dom-crawler
-    #command: composer require symfony/css-selector
-    #command: composer require predis/predis
+    command: composer install
