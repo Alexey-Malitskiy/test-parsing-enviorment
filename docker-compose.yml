@@ -1,0 +1,49 @@
+version: '3'
+services:
+  web:
+    build: ./web
+    environment:
+      - APACHE_RUN_USER=#1000
+    volumes:
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+    ports:
+      - 8080:80
+    working_dir: ${APP_PATH_CONTAINER}
+
+  db:
+    image: mysql:5.7.10
+    restart: always
+    ports:
+      - 3380:3306
+    environment:
+      MYSQL_USER: developer
+      MYSQL_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: 654321
+    volumes:
+      - ${DB_PATH_HOST}:/var/lib/mysql
+      #- ${DUMP_SQL}:/docker-entrypoint-initdb.d/dump.sql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 6080:8080
+
+  redis:
+    image: redis
+    #volumes:
+     # - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+    ports:
+      - 6379:6379
+
+  composer:
+    image: composer:1.6
+    volumes:
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+    working_dir: ${APP_PATH_CONTAINER}
+    #command: composer install
+    #command: composer create-project --prefer-dist laravel/laravel test-parsing "5.5.*"
+    #command: composer require electrolinux/phpquery
+    #command: composer require symfony/dom-crawler
+    #command: composer require symfony/css-selector
+    #command: composer require predis/predis
